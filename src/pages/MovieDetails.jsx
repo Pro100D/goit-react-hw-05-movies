@@ -1,27 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, Outlet } from 'react-router-dom';
 import { fetchDetailsInfoFilm } from '../services/fetchDetailsInfoFilm';
-import { fetchCastFilm } from '../services/fetchCastFilm';
+
 const MovieDetails = () => {
   const [filmDetails, setFilmDetails] = useState({});
-  const [cast, setCast] = useState([]);
+  const [genres, setGenres] = useState([]);
 
   const { movieId } = useParams();
 
   useEffect(() => {
     fetchDetailsInfoFilm(movieId).then(data => {
-      console.log(data);
-      return setFilmDetails(data);
+      setFilmDetails(data);
+      setGenres(data.genres);
     });
   }, [movieId]);
-
-  useEffect(() => {
-    fetchCastFilm(movieId).then(data => {
-      console.log(data);
-      return setCast(data.cast);
-    });
-  }, [movieId]);
-
+  console.log(filmDetails.genres);
   return (
     <div>
       <img
@@ -29,7 +22,14 @@ const MovieDetails = () => {
         alt=""
       />
       <h1>{filmDetails.title}</h1>
-      <p>{filmDetails.overview}</p>
+
+      <p>Overview: {filmDetails.overview}</p>
+      <div>
+        <h2>Ganres:</h2>
+        {genres.map(genr => (
+          <p key={genr.id}>{genr.name}</p>
+        ))}
+      </div>
       <ul>
         <li>
           <Link to="cast">Cast</Link>
