@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link, Outlet } from 'react-router-dom';
+import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { fetchDetailsInfoFilm } from '../services/fetchDetailsInfoFilm';
 
 const MovieDetails = () => {
   const [filmDetails, setFilmDetails] = useState({});
   const [genres, setGenres] = useState([]);
+  const location = useLocation();
 
   const { movieId } = useParams();
 
@@ -14,9 +15,10 @@ const MovieDetails = () => {
       setGenres(data.genres);
     });
   }, [movieId]);
-  console.log(filmDetails.genres);
+
   return (
     <div>
+      <Link to={location.state.from}>Go Back</Link>
       <img
         src={`https://image.tmdb.org/t/p/w500${filmDetails.poster_path}`}
         alt=""

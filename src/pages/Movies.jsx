@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { fetchFilmsOrQuery } from '../services/fetchFilmsOrQuery';
 
 const Movies = () => {
   const [serchParams, setSerchParams] = useSearchParams();
-  const query = serchParams.get('query');
+  const query = serchParams.get('query') ?? '';
 
   const [values, setValues] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     if (!query) {
@@ -34,7 +35,9 @@ const Movies = () => {
       <ul>
         {values.map(value => (
           <li key={value.id}>
-            <Link to={`${value.id}`}>{value.title}</Link>
+            <Link to={`${value.id}`} state={{ from: location }}>
+              {value.title}
+            </Link>
           </li>
         ))}
       </ul>

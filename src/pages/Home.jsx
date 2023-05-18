@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { fetchAllTrenders } from '../services/fetchAllTrending';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Home = () => {
   const [data, setData] = useState([]);
+  const location = useLocation();
 
   useEffect(() => {
     fetchAllTrenders().then(data => setData(data.results));
@@ -15,7 +16,9 @@ const Home = () => {
       <ul>
         {data.map(film => (
           <li key={film.id}>
-            <Link to={`movies/${film.id}`}>{film.title}</Link>
+            <Link to={`movies/${film.id}`} state={{ from: location }}>
+              {film.title}
+            </Link>
           </li>
         ))}
       </ul>
