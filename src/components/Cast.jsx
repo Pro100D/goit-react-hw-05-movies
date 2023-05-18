@@ -18,7 +18,11 @@ const Cast = () => {
           <li key={id}>
             <img
               width="150px"
-              src={`https://image.tmdb.org/t/p/w500${profile_path}`}
+              src={
+                profile_path
+                  ? `https://image.tmdb.org/t/p/w500${profile_path}`
+                  : 'http://placehold.it/150x225/'
+              }
               alt=""
             />
             <p>Name: {name}</p>

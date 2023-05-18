@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
 import { fetchDetailsInfoFilm } from '../services/fetchDetailsInfoFilm';
 
@@ -18,9 +18,14 @@ const MovieDetails = () => {
 
   return (
     <div>
-      <Link to={location.state.from}>Go Back</Link>
+      <Link to={location?.state?.from || '/'}>Go Back</Link>
       <img
-        src={`https://image.tmdb.org/t/p/w500${filmDetails.poster_path}`}
+        width="500"
+        src={
+          filmDetails.poster_path
+            ? `https://image.tmdb.org/t/p/w500${filmDetails.poster_path}`
+            : 'http://placehold.it/640x70/'
+        }
         alt=""
       />
       <h1>{filmDetails.title}</h1>
@@ -34,13 +39,20 @@ const MovieDetails = () => {
       </div>
       <ul>
         <li>
-          <Link to="cast">Cast</Link>
+          <Link to="cast" state={{ from: location }}>
+            Cast
+          </Link>
         </li>
         <li>
-          <Link to="reviews">Reviews</Link>
+          <Link to="reviews" state={{ from: location }}>
+            Reviews
+          </Link>
         </li>
       </ul>
-      <Outlet />
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };

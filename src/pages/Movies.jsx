@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link, useLocation } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { fetchFilmsOrQuery } from '../services/fetchFilmsOrQuery';
+
+import MovieList from '../components/MovieList';
+import SearchForm from '../components/SearchForm';
 
 const Movies = () => {
   const [serchParams, setSerchParams] = useSearchParams();
@@ -17,30 +20,15 @@ const Movies = () => {
     fetchFilmsOrQuery(query).then(data => setValues(data.results));
   }, [query]);
 
+  const handleSubmit = value => {
+    setSerchParams({ query: value });
+  };
+
   return (
     <div>
-      <form
-        onSubmit={evt => {
-          evt.preventDefault();
+      <SearchForm onSubmit={handleSubmit} />
 
-          setSerchParams({ query: evt.currentTarget.elements.query.value });
-
-          evt.target.reset();
-        }}
-      >
-        <input type="text" name="query" />
-        <button type="submit">Search</button>
-      </form>
-
-      <ul>
-        {values.map(value => (
-          <li key={value.id}>
-            <Link to={`${value.id}`} state={{ from: location }}>
-              {value.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <MovieList values={values} location={location} />
     </div>
   );
 };
