@@ -1,6 +1,12 @@
+import {
+  InputSearchForm,
+  ButtonSearch,
+  SearchFormStyled,
+} from './styledCss/SearchForm.styled';
+
 const SearchForm = ({ onSubmit }) => {
   return (
-    <form
+    <SearchFormStyled
       onSubmit={evt => {
         evt.preventDefault();
 
@@ -9,9 +15,9 @@ const SearchForm = ({ onSubmit }) => {
         evt.target.reset();
       }}
     >
-      <input type="text" name="query" />
-      <button type="submit">Search</button>
-    </form>
+      <InputSearchForm type="text" name="query" />
+      <ButtonSearch type="submit">Search</ButtonSearch>
+    </SearchFormStyled>
   );
 };
 export default SearchForm;

@@ -1,16 +1,19 @@
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { MovieListStyled, LinkStyled } from './styledCss/MovieList.styled';
 
-const MovieList = ({ values, location }) => {
+const MovieList = ({ values }) => {
+  const location = useLocation();
+
   return (
-    <ul>
+    <MovieListStyled>
       {values.map(value => (
         <li key={value.id}>
-          <Link to={`${value.id}`} state={{ from: location }}>
+          <LinkStyled to={`/movies/${value.id}`} state={{ from: location }}>
             {value.title}
-          </Link>
+          </LinkStyled>
         </li>
       ))}
-    </ul>
+    </MovieListStyled>
   );
 };
 export default MovieList;

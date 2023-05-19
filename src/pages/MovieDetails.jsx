@@ -1,6 +1,12 @@
 import { Suspense, useEffect, useState } from 'react';
-import { useParams, Link, Outlet, useLocation } from 'react-router-dom';
+import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { fetchDetailsInfoFilm } from '../services/fetchDetailsInfoFilm';
+import {
+  MovieDetailsLinkStyled,
+  FlexBlockMovieDetails,
+  GanresBlock,
+  LinkStyled,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const [filmDetails, setFilmDetails] = useState({});
@@ -18,41 +24,52 @@ const MovieDetails = () => {
 
   return (
     <div>
-      <Link to={location?.state?.from || '/'}>Go Back</Link>
-      <img
-        width="500"
-        src={
-          filmDetails.poster_path
-            ? `https://image.tmdb.org/t/p/w500${filmDetails.poster_path}`
-            : 'http://placehold.it/640x70/'
-        }
-        alt=""
-      />
-      <h1>{filmDetails.title}</h1>
+      <MovieDetailsLinkStyled to={location?.state?.from || '/'}>
+        Go Back
+      </MovieDetailsLinkStyled>
+      <FlexBlockMovieDetails>
+        <div>
+          <img
+            width="500"
+            src={
+              filmDetails.poster_path
+                ? `https://image.tmdb.org/t/p/w500${filmDetails.poster_path}`
+                : 'http://placehold.it/640x70/'
+            }
+            alt=""
+          />
+        </div>
+        <div>
+          <div>
+            <h1>{filmDetails.title}</h1>
+            <p>Overview: {filmDetails.overview}</p>
+          </div>
+          <div>
+            <h2>Ganres:</h2>
+            <GanresBlock>
+              {genres.map(genr => (
+                <p key={genr.id}>{genr.name}</p>
+              ))}
+            </GanresBlock>
+          </div>
+          <ul>
+            <li>
+              <LinkStyled to="cast" state={{ from: location }}>
+                Cast
+              </LinkStyled>
+            </li>
+            <li>
+              <LinkStyled to="reviews" state={{ from: location }}>
+                Reviews
+              </LinkStyled>
+            </li>
+          </ul>
 
-      <p>Overview: {filmDetails.overview}</p>
-      <div>
-        <h2>Ganres:</h2>
-        {genres.map(genr => (
-          <p key={genr.id}>{genr.name}</p>
-        ))}
-      </div>
-      <ul>
-        <li>
-          <Link to="cast" state={{ from: location }}>
-            Cast
-          </Link>
-        </li>
-        <li>
-          <Link to="reviews" state={{ from: location }}>
-            Reviews
-          </Link>
-        </li>
-      </ul>
-
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Outlet />
+          </Suspense>
+        </div>
+      </FlexBlockMovieDetails>
     </div>
   );
 };
