@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
-import { fetchDetailsInfoFilm } from '../services/fetchDetailsInfoFilm';
+import { fetchDetailsInfoFilm } from '../../services/allFetchs';
 import {
   MovieDetailsLinkStyled,
   FlexBlockMovieDetails,

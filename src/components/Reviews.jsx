@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { fetchReviews } from '../services/fetchReviews';
+import { fetchReviews } from '../services/allFetchs';
 import { useEffect, useState } from 'react';
 
 const Reviews = () => {
